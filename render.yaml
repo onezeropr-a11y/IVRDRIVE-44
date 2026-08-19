@@ -1,0 +1,66 @@
+services:
+  - type: web
+    name: ivr-driver
+    runtime: python
+    plan: starter
+    buildCommand: pip install -r requirements.txt
+    startCommand: uvicorn app.main:app --host 0.0.0.0 --port $PORT
+    healthCheckPath: /healthz
+    # Keeps the ten-second backend deploy: a console-only commit never
+    # rebuilds the phone line, and vice versa.
+    buildFilter:
+      paths:
+        - app/**
+        - requirements.txt
+        - render.yaml
+      ignoredPaths:
+        - web/**
+    envVars:
+      - key: PYTHON_VERSION
+        value: "3.12.7"
+      - key: PROBE_ECHO
+        value: loopback
+      - key: PROBE_CAPTURE_DIR
+        value: /var/data/captures
+      # Managed Postgres connection string; set in the dashboard so the
+      # credentials never enter the repository.
+      - key: BOT_DB_URL
+        sync: false
+      - key: ADMIN_TOKEN
+        sync: false
+      - key: CONSOLE_ORIGINS
+        sync: false
+      # Module API URLs are built from this, so the PBX must be able to reach
+      # it; a wrong value means menus that play and then go nowhere.
+      - key: PUBLIC_BASE_URL
+        value: https://ivr-driver.onrender.com
+      # Flash calls stay simulated until Technoline allowlists this service's
+      # IP and someone flips this off deliberately.
+      - key: PBX_DRY_RUN
+        value: "1"
+      - key: PBX_API_KEY
+        sync: false
+      - key: SCHEDULER_ENABLED
+        value: "1"
+    disk:
+      name: captures
+      mountPath: /var/data
+      sizeGB: 1
+
+  - type: web
+    name: drivers-console
+    runtime: static
+    rootDir: web
+    buildCommand: npm ci && npm run build
+    staticPublishPath: ./dist
+    buildFilter:
+      paths:
+        - web/**
+    envVars:
+      - key: VITE_API_BASE
+        value: https://ivr-driver.onrender.com
+    routes:
+      # Single-page app: every path resolves to the same bundle.
+      - type: rewrite
+        source: /*
+        destination: /index.html

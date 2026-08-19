@@ -1,0 +1,378 @@
+:root {
+  --bg: #0f1420;
+  --panel: #171e2e;
+  --panel-2: #1e2739;
+  --line: #2a3550;
+  --text: #e8edf7;
+  --muted: #93a1bd;
+  --accent: #4f8cff;
+  --ok: #35c48b;
+  --warn: #f2b544;
+  --bad: #ef6461;
+  color-scheme: dark;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--text);
+  font-family: "Segoe UI", system-ui, Arial, sans-serif;
+}
+
+.app {
+  display: grid;
+  grid-template-columns: 220px 1fr;
+  min-height: 100vh;
+}
+
+.sidebar {
+  background: var(--panel);
+  border-inline-start: 1px solid var(--line);
+  padding: 1.25rem 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+}
+
+.brand {
+  font-size: 1.25rem;
+  font-weight: 700;
+  margin-bottom: 1rem;
+}
+
+.brand small {
+  display: block;
+  font-size: 0.75rem;
+  font-weight: 400;
+  color: var(--muted);
+}
+
+.sidebar button {
+  background: none;
+  border: 0;
+  color: var(--muted);
+  text-align: start;
+  padding: 0.6rem 0.75rem;
+  border-radius: 8px;
+  font: inherit;
+  cursor: pointer;
+}
+
+.sidebar button:hover {
+  background: var(--panel-2);
+  color: var(--text);
+}
+
+.sidebar button[data-active="true"] {
+  background: var(--accent);
+  color: #fff;
+}
+
+.sidebar .token {
+  margin-top: auto;
+}
+
+main {
+  padding: 1.5rem;
+  overflow-x: auto;
+}
+
+h1 {
+  margin: 0 0 1rem;
+  font-size: 1.4rem;
+}
+
+.cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap: 0.75rem;
+  margin-bottom: 1.25rem;
+}
+
+.card {
+  background: var(--panel);
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  padding: 0.9rem 1rem;
+}
+
+.card b {
+  display: block;
+  font-size: 1.6rem;
+  line-height: 1.2;
+}
+
+.card span {
+  color: var(--muted);
+  font-size: 0.8rem;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  background: var(--panel);
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  overflow: hidden;
+}
+
+th,
+td {
+  padding: 0.6rem 0.75rem;
+  text-align: start;
+  border-bottom: 1px solid var(--line);
+  font-size: 0.9rem;
+  white-space: nowrap;
+}
+
+th {
+  background: var(--panel-2);
+  color: var(--muted);
+  font-weight: 600;
+}
+
+tbody tr:hover {
+  background: var(--panel-2);
+}
+
+.pill {
+  display: inline-block;
+  padding: 0.15rem 0.6rem;
+  border-radius: 999px;
+  font-size: 0.75rem;
+  border: 1px solid var(--line);
+}
+
+.pill[data-status="new"] {
+  background: rgba(79, 140, 255, 0.15);
+  color: var(--accent);
+}
+
+.pill[data-status="assigned"],
+.pill[data-status="on_route"] {
+  background: rgba(242, 181, 68, 0.15);
+  color: var(--warn);
+}
+
+.pill[data-status="done"] {
+  background: rgba(53, 196, 139, 0.15);
+  color: var(--ok);
+}
+
+.pill[data-status="cancelled"] {
+  background: rgba(239, 100, 97, 0.15);
+  color: var(--bad);
+}
+
+input,
+select,
+textarea,
+button.action {
+  background: var(--panel-2);
+  color: var(--text);
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  padding: 0.4rem 0.6rem;
+  font: inherit;
+}
+
+button.action {
+  cursor: pointer;
+}
+
+button.action:hover {
+  border-color: var(--accent);
+}
+
+textarea {
+  width: 100%;
+  min-height: 18rem;
+  line-height: 1.6;
+}
+
+.row {
+  display: flex;
+  gap: 0.6rem;
+  align-items: center;
+  flex-wrap: wrap;
+  margin-bottom: 1rem;
+}
+
+.muted {
+  color: var(--muted);
+}
+
+.error {
+  background: rgba(239, 100, 97, 0.12);
+  border: 1px solid var(--bad);
+  color: var(--bad);
+  padding: 0.6rem 0.8rem;
+  border-radius: 8px;
+  margin-bottom: 1rem;
+}
+
+/* A form or a drilled-into record, set apart from the list it came from. */
+.panel {
+  background: var(--panel);
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  padding: 1rem;
+  margin-bottom: 1.25rem;
+}
+
+.panel h2 {
+  margin-top: 0;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 0.75rem;
+  margin-bottom: 1rem;
+}
+
+.grid label {
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+  font-size: 0.8rem;
+  color: var(--muted);
+}
+
+.grid label.check {
+  flex-direction: row;
+  align-items: center;
+}
+
+label.check input {
+  width: auto;
+}
+
+td button,
+.row button {
+  background: var(--panel-2);
+  color: var(--text);
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  padding: 0.35rem 0.6rem;
+  margin-inline-end: 0.3rem;
+  font: inherit;
+  font-size: 0.85rem;
+  cursor: pointer;
+}
+
+td button:hover,
+.row button:hover {
+  border-color: var(--accent);
+}
+
+.card.wide ul {
+  margin: 0.5rem 0 0;
+  padding-inline-start: 1rem;
+  color: var(--muted);
+  font-size: 0.8rem;
+}
+
+h2 {
+  font-size: 1.1rem;
+  margin: 1.5rem 0 0.75rem;
+}
+
+h3 {
+  font-size: 0.95rem;
+  color: var(--muted);
+  margin: 1.25rem 0 0.5rem;
+}
+
+pre {
+  background: var(--panel);
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  padding: 1rem;
+  white-space: pre-wrap;
+  line-height: 1.7;
+}
+
+@media (max-width: 760px) {
+  .app {
+    grid-template-columns: 1fr;
+  }
+
+  .sidebar {
+    flex-direction: row;
+    flex-wrap: wrap;
+    align-items: center;
+    border: 0;
+    border-bottom: 1px solid var(--line);
+    padding: 0.75rem;
+  }
+
+  .brand {
+    width: 100%;
+    margin-bottom: 0.5rem;
+  }
+
+  .sidebar .token {
+    margin: 0;
+    flex: 1 1 100%;
+  }
+
+  main {
+    padding: 1rem 0.75rem;
+  }
+
+  td,
+  th {
+    white-space: normal;
+  }
+
+  /* Every table here is wider than a phone; each becomes one card per row,
+     each cell labelled by its header, so nothing hides off the right edge. */
+  table thead {
+    display: none;
+  }
+
+  table,
+  tbody,
+  tr,
+  td {
+    display: block;
+  }
+
+  tr {
+    border: 1px solid var(--line);
+    border-radius: 12px;
+    margin-bottom: 0.75rem;
+    padding: 0.25rem 0.75rem;
+    background: var(--panel);
+  }
+
+  td {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 1rem;
+    border: 0;
+    border-bottom: 1px solid var(--line);
+    padding: 0.5rem 0;
+  }
+
+  tr td:last-child {
+    border-bottom: 0;
+  }
+
+  td::before {
+    content: attr(data-label);
+    color: var(--muted);
+    font-size: 0.8rem;
+  }
+
+  td input,
+  td select {
+    flex: 0 1 55%;
+  }
+}

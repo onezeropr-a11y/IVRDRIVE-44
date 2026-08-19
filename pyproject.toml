@@ -1,0 +1,17 @@
+[tool.pytest.ini_options]
+# The application is imported as `app.*`, so the repository root has to be on
+# the path when pytest runs from anywhere.
+pythonpath = ["."]
+testpaths = ["tests"]
+# The models store naive UTC everywhere; the deprecation notice on utcnow()
+# would otherwise bury the actual test output.
+filterwarnings = ["ignore:datetime.datetime.utcnow:DeprecationWarning"]
+
+[tool.ruff]
+line-length = 100
+
+[tool.ruff.lint]
+select = ["E", "F", "W", "I", "UP", "B"]
+# The probe must never die mid-call: broad excepts around I/O and socket sends
+# are deliberate, since a crash loses the capture we are trying to obtain.
+ignore = ["B008"]

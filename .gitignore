@@ -3,3 +3,7 @@ __pycache__/
 captures/
 .venv/
 .env
+bot.db
+*.db
+node_modules/
+web/dist/
